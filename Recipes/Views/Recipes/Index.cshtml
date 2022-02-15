@@ -4,48 +4,46 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h4 class="mt-4">Recipes</h4>
 
-<p>
-    <a asp-action="Create">Create New</a>
+<p class="pe-5">
+    <div class="pt-2">
+        <a asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-lg"></i> Create New
+        </a>
+    </div>
 </p>
 
+<div class="d-flex flex-wrap justify-content-evenly">
 
-<div class="d-flex flex-row" >
-@foreach (var item in Model)
-{
-    <div class="d-flex justify-content-around">
-
-    <div class="card" style="width: 28rem;">
-        <img src="images/photo1.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-             <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-            <div class="d-flex justify-content-evenly">
-                    <p class="card-text"><img src="https://img.icons8.com/material-outlined/24/000000/clock--v1.png"/> @Html.DisplayFor(modelItem => item.TimeToMake)</p>
-                @if (item.Healthy == true)
-                {
-                    <p class="card-text"><img src="https://img.icons8.com/material-outlined/24/000000/heart-health.png"/> Healthy</p>
-                }
-                    <p class="card-text"><img src="https://img.icons8.com/material-two-tone/24/000000/line-chart.png"/> @Html.DisplayFor(modelItem => item.Difficulty)</p>
-                @if (item.DietaryRequirements != null)
-                {
-                    <p class="card-text"><img src="https://img.icons8.com/material-outlined/24/000000/vegan-food.png"/> @Html.DisplayFor(modelItem => item.DietaryRequirements)</p>
-                }
+    @foreach (var item in Model)
+    {
+        <a asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none" style="color: black">
+            <div class="card mb-4" style="width: 22rem;">
+                <img src="images/photo1.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                    <div class="d-flex justify-content-evenly">
+                        <p class="card-text"><img src="https://img.icons8.com/material-outlined/24/000000/clock--v1.png" /> @Html.DisplayFor(modelItem => item.TimeToMake)</p>
+                        <p class="card-text"><img src="https://img.icons8.com/plumpy/24/000000/medium-connection.png" /> @Html.DisplayFor(modelItem => item.Difficulty)</p>
+                    </div>
+                    <div class="d-flex justify-content-evenly">
+                        @if (item.Healthy == true)
+                        {
+                            <p class="card-text"><img src="https://img.icons8.com/material-outlined/24/000000/heart-health.png" /> Healthy</p>
+                        }
+                        @if (item.DietaryRequirements != "None")
+                        {
+                            <p class="card-text"><img src="https://img.icons8.com/material-outlined/24/000000/vegan-food.png" /> @Html.DisplayFor(modelItem => item.DietaryRequirements)</p>
+                        }
+                    </div>
+                    @*<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">
+                        <i class="bi bi-info-circle"></i>
+                        </a>*@
+                </div>
             </div>
-            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">
-            <i class="bi bi-info-circle"></i> Details
-            </a>
-        </div>
-    </div>
-    </div>
-    <br />
-    @*</div>*@
-    
-    @*<td>
-        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-    </td>*@
-}
+        </a>
+    }
+
 </div>

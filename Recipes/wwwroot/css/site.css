@@ -16,3 +16,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.card:hover {
+    background-color: whitesmoke;
+    border: 2px solid black;
+}

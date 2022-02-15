@@ -50,7 +50,8 @@ namespace Recipes.Controllers
         // GET: Recipes/Create
         public IActionResult Create()
         {
-            return View();
+            var model = new Recipe();
+            return View(model);
         }
 
         // POST: Recipes/Create
@@ -64,6 +65,7 @@ namespace Recipes.Controllers
             {
                 _context.Add(recipe);
                 await _context.SaveChangesAsync();
+                TempData["success"] = "Recipe created successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(recipe);
@@ -103,6 +105,7 @@ namespace Recipes.Controllers
                 {
                     _context.Update(recipe);
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "Recipe updated successfully";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -146,6 +149,7 @@ namespace Recipes.Controllers
             var recipe = await _context.Recipe.FindAsync(id);
             _context.Recipe.Remove(recipe);
             await _context.SaveChangesAsync();
+            TempData["success"] = "Recipe deleted successfully";
             return RedirectToAction(nameof(Index));
         }
 

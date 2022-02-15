@@ -4,74 +4,76 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h4>Edit Recipe</h4>
 
-<h4>Recipe</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <label asp-for="Image" class="control-label"></label>
                 <input asp-for="Image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2 col-md-7">
                 <label asp-for="TimeToMake" class="control-label"></label>
                 <input asp-for="TimeToMake" class="form-control" />
                 <span asp-validation-for="TimeToMake" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2 col-md-7">
                 <label asp-for="Difficulty" class="control-label"></label>
-                <input asp-for="Difficulty" class="form-control" />
+                <select asp-for="Difficulty" asp-items="Model.DifficultyList" class="form-select"></select>
                 <span asp-validation-for="Difficulty" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
+            <div class="form-group form-check mt-3">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Healthy" /> @Html.DisplayNameFor(model => model.Healthy)
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2 col-md-7">
                 <label asp-for="DietaryRequirements" class="control-label"></label>
-                <input asp-for="DietaryRequirements" class="form-control" />
+                <select asp-for="DietaryRequirements" asp-items="Model.DietaryRequirementsList" class="form-select"></select>
                 <span asp-validation-for="DietaryRequirements" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group  mt-2 col-md-7 col-md-7">
                 <label asp-for="Servings" class="control-label"></label>
                 <input asp-for="Servings" class="form-control" />
                 <span asp-validation-for="Servings" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <label asp-for="Ingredients" class="control-label"></label>
-                <input asp-for="Ingredients" class="form-control" />
+                <textarea asp-for="Ingredients" class="form-control" rows="5"></textarea>
                 <span asp-validation-for="Ingredients" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <label asp-for="Method" class="control-label"></label>
-                <input asp-for="Method" class="form-control" />
+                <textarea asp-for="Method" class="form-control" rows="5"></textarea>
                 <span asp-validation-for="Method" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <br />
+            <div class="d-flex">
+                <div>
+                    <a asp-action="Index" class="btn btn-secondary"> 
+                        <i class="bi bi-chevron-left"></i> Back</a>
+                </div>
+                <div class="ms-auto">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
