@@ -1,0 +1,48 @@
+﻿@model Recipes.Models.RecipeDifficultyDietaryRequirementsViewModel
+
+@{
+    ViewData["Title"] = "QuickEasyRecipes";
+}
+
+<h4 class="mt-4">Recipes</h4>
+
+<form asp-controller="Recipes" asp-action="QuickEasyRecipes" method="get">
+    <partial name="_CreateAndFilter" />
+</form>
+
+<div class="d-flex flex-wrap justify-content-evenly">
+
+    @foreach (var item in Model.Recipes)
+    {
+        @if (item.Difficulty == "Easy" || item.Difficulty == "Super easy")
+        {
+            <a asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none" style="color: black">
+                <div class="card mb-4" style="width: 22rem;">
+                    <img src="~/images/photo2.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                        <div class="d-flex justify-content-evenly">
+                            <p class="card-text badge bg-primary"><img src="https://img.icons8.com/material-outlined/24/000000/clock--v1.png" /> @Html.DisplayFor(modelItem => item.TimeToMake)</p>
+                            <p class="badge bg-warning"><img src="https://img.icons8.com/plumpy/24/000000/medium-connection.png" /> @Html.DisplayFor(modelItem => item.Difficulty)</p>
+                        </div>
+                        <div class="d-flex justify-content-evenly">
+                            @if (item.Healthy == true)
+                            {
+                                <p class="card-text badge bg-danger"><img src="https://img.icons8.com/material-outlined/24/000000/heart-health.png" /> Healthy</p>
+                            }
+                            @if (item.DietaryRequirements != "None")
+                            {
+                                <p class="badge bg-success"><img src="https://img.icons8.com/material-outlined/24/000000/vegan-food.png" /> @Html.DisplayFor(modelItem => item.DietaryRequirements)</p>
+                            }
+                        </div>
+                    @*<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">
+                        <i class="bi bi-info-circle"></i>
+                        </a>*@
+                </div>
+            </div>
+        </a>
+        }
+    }
+
+</div>

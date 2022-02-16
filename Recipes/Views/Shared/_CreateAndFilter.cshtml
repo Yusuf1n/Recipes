@@ -1,0 +1,33 @@
+﻿@model Recipes.Models.RecipeDifficultyDietaryRequirementsViewModel
+
+<p>
+    <div class="d-flex pt-2">
+
+        <p class="pe-5">
+            <a asp-action="Create" class="btn btn-success">
+                <i class="bi bi-plus-lg"></i> Create New
+            </a>
+        </p>
+
+        <div class="ps-5">
+            <select asp-for="RecipeDifficulty" asp-items="Model.Difficulties" class="form-select">
+                <option value="" class="dropdown-item disabled">Difficulty</option>
+            </select>
+        </div>
+
+        <div class="ps-3">
+            <select asp-for="RecipeDietaryRequirements" asp-items="Model.DietaryRequirements" class="form-select">
+                <option value="" class="dropdown-item disabled">Dietary Requirements</option>
+            </select>
+        </div>
+
+        <div class="ps-3">
+            <input type="text" name="SearchString" class="form-control" placeholder="Search Recipe" />
+        </div>
+
+        <div class="ps-4">
+            <input type="submit" value="Filter" class="btn btn-secondary my-2 my-sm-0" />
+        </div>
+
+    </div>
+</p>

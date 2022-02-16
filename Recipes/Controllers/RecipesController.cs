@@ -23,7 +23,7 @@ namespace Recipes.Controllers
             _context = context;
         }
 
-        // GET: Recipes
+        // GET: All Recipes
         public async Task<IActionResult> Index(string recipeDifficulty, string recipeDietaryRequirements, string searchString)
         {
             // Use LINQ to get list of difficulty.
@@ -35,6 +35,87 @@ namespace Recipes.Controllers
             IQueryable<string> dietaryRequirementsQuery = from t in _context.Recipe
                                                orderby t.DietaryRequirements
                                                select t.DietaryRequirements;
+
+            var recipe = from r in _context.Recipe
+                         select r;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                recipe = recipe.Where(s => s.Name!.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(recipeDifficulty))
+            {
+                recipe = recipe.Where(x => x.Difficulty == recipeDifficulty);
+            }
+
+            if (!string.IsNullOrEmpty(recipeDietaryRequirements))
+            {
+                recipe = recipe.Where(x => x.DietaryRequirements == recipeDietaryRequirements);
+            }
+
+            var recipeDifficultyDietaryRequirementsVM = new RecipeDifficultyDietaryRequirementsViewModel
+            {
+                Difficulties = new SelectList(await difficultyQuery.Distinct().ToListAsync()),
+                DietaryRequirements = new SelectList(await dietaryRequirementsQuery.Distinct().ToListAsync()),
+                Recipes = await recipe.ToListAsync()
+            };
+            return View(recipeDifficultyDietaryRequirementsVM);
+        }
+
+        // GET: Healthy Recipes
+        public async Task<IActionResult> HealthyRecipes(string recipeDifficulty, string recipeDietaryRequirements, string searchString)
+            {
+                // Use LINQ to get list of difficulty.
+                IQueryable<string> difficultyQuery = from t in _context.Recipe
+                                                     orderby t.Difficulty
+                                                     select t.Difficulty;
+
+                // Use LINQ to get list of dietarary requirments.
+                IQueryable<string> dietaryRequirementsQuery = from t in _context.Recipe
+                                                              orderby t.DietaryRequirements
+                                                              select t.DietaryRequirements;
+
+                var recipe = from r in _context.Recipe
+                             select r;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    recipe = recipe.Where(s => s.Name!.Contains(searchString));
+                }
+
+                if (!string.IsNullOrEmpty(recipeDifficulty))
+                {
+                    recipe = recipe.Where(x => x.Difficulty == recipeDifficulty);
+                }
+
+                if (!string.IsNullOrEmpty(recipeDietaryRequirements))
+                {
+                    recipe = recipe.Where(x => x.DietaryRequirements == recipeDietaryRequirements);
+                }
+
+                var recipeDifficultyDietaryRequirementsVM = new RecipeDifficultyDietaryRequirementsViewModel
+                {
+                    Difficulties = new SelectList(await difficultyQuery.Distinct().ToListAsync()),
+                    DietaryRequirements = new SelectList(await dietaryRequirementsQuery.Distinct().ToListAsync()),
+                    Recipes = await recipe.ToListAsync()
+                };
+
+                return View(recipeDifficultyDietaryRequirementsVM);
+            }
+
+        // GET: All Recipes
+        public async Task<IActionResult> QuickEasyRecipes(string recipeDifficulty, string recipeDietaryRequirements, string searchString)
+        {
+            // Use LINQ to get list of difficulty.
+            IQueryable<string> difficultyQuery = from t in _context.Recipe
+                                                 orderby t.Difficulty
+                                                 select t.Difficulty;
+
+            // Use LINQ to get list of dietarary requirments.
+            IQueryable<string> dietaryRequirementsQuery = from t in _context.Recipe
+                                                          orderby t.DietaryRequirements
+                                                          select t.DietaryRequirements;
 
             var recipe = from r in _context.Recipe
                          select r;
