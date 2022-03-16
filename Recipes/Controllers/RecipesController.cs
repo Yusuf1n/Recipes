@@ -18,9 +18,13 @@ namespace Recipes.Controllers
     {
         private readonly RecipesContext _context;
 
-        public RecipesController(RecipesContext context)
+        private readonly IWebHostEnvironment webHostEnvironment;
+
+
+        public RecipesController(RecipesContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            webHostEnvironment = environment;
         }
 
         // GET: All Recipes
@@ -175,10 +179,23 @@ namespace Recipes.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Image,Description,TimeToMake,Difficulty,Healthy,DietaryRequirements,Servings,Ingredients,Method")] Recipe recipe)
+        public async Task<IActionResult> Create([Bind("Id,Name,Image,Description,TimeToMake,Difficulty,Healthy,DietaryRequirements,Servings,Ingredients,Method")] Recipe recipe, IFormFile file)
         {
             if (ModelState.IsValid)
             {
+                string uniqueFileName = null;  //to contain the filename
+                if (file != null)  //handle iformfile
+                {
+                    string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                    uniqueFileName = file.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        //file.CopyTo(fileStream);
+                    }
+                }
+                recipe.Image = uniqueFileName; //fill the image property
+
                 _context.Add(recipe);
                 await _context.SaveChangesAsync();
                 TempData["success"] = "Recipe created successfully";
@@ -208,7 +225,7 @@ namespace Recipes.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Image,Description,TimeToMake,Difficulty,Healthy,DietaryRequirements,Servings,Ingredients,Method")] Recipe recipe)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Image,Description,TimeToMake,Difficulty,Healthy,DietaryRequirements,Servings,Ingredients,Method")] Recipe recipe, IFormFile file)
         {
             if (id != recipe.Id)
             {
@@ -219,6 +236,20 @@ namespace Recipes.Controllers
             {                
                 try
                 {
+                    string uniqueFileName = recipe.Image;
+
+                    if (file != null)  //handle iformfile
+                    {
+                        string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                        uniqueFileName = file.FileName;
+                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            file.CopyTo(fileStream);
+                        }
+                    }
+                    recipe.Image = uniqueFileName; //fill the image property
+
                     _context.Update(recipe);
                     await _context.SaveChangesAsync();
                     TempData["success"] = "Recipe updated successfully";
